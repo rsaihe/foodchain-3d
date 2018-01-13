@@ -29,21 +29,35 @@ class Entity {
         this.acc.add(f);
     }
 
+    // Check if point is inside entity
+    contains(x, y, z) {
+        return insideSphere(
+            x, y, z, this.pos.x, this.pos.y, this.pos.z, this.radius
+        );
+    }
+
     draw() {
         push();
 
         noStroke();
+
+        // Decrease opacity as nutrition level goes down
         var alpha;
         if (showNutrition) {
             alpha = 255 * this.nutrition / this.maxNutrition;
         } else {
             alpha = 255;
         }
-        ambientMaterial(this.color[0], this.color[1], this.color[2], alpha);
-        translate(this.pos.x, this.pos.y, this.pos.z, alpha);
+        ambientMaterial(this.color, alpha);
+
+        translate(this.pos.x, this.pos.y, this.pos.z);
         sphere(this.radius);
 
         pop();
+    }
+
+    kill() {
+        this.alive = false;
     }
 
     onCreate() {
