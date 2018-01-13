@@ -33,8 +33,14 @@ class Entity {
         push();
 
         noStroke();
-        ambientMaterial(this.color);
-        translate(this.pos.x, this.pos.y, this.pos.z);
+        var alpha;
+        if (showNutrition) {
+            alpha = 255 * this.nutrition / this.maxNutrition;
+        } else {
+            alpha = 255;
+        }
+        ambientMaterial(this.color[0], this.color[1], this.color[2], alpha);
+        translate(this.pos.x, this.pos.y, this.pos.z, alpha);
         sphere(this.radius);
 
         pop();

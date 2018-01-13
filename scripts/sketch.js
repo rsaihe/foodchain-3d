@@ -1,15 +1,45 @@
 var entities;
 var newEntities;
-var e;
+
+var mapX;
+var mapY;
+var mapZ;
+
+var showNutrition = true;
+
+
+// Misc functions
+
+// Initialize important coordinate variables
+function initCoords() {
+    mapX = width / 2;
+    mapY = height / 2;
+    mapZ = -500;
+}
+
+// Initialize entity arrays
+function initEntities() {
+    entities = [];
+    newEntities = [];
+
+    // Spawn example entities
+    for (var i = 0; i < 10; i++) {
+        var x = random(-mapX, mapX);
+        var y = random(-mapY, mapY);
+        var e = new Entity(x, y, random(mapZ));
+        e.color = [255, 0, 0];
+        e.radius = random(10, 50);
+        entities.push(e);
+    }
+}
 
 
 // Main p5 functions
 
 function setup() {
     createCanvas(windowWidth, windowHeight, WEBGL);
-    e = new Entity(0, 0, 0);
-    e.color = [255, 0, 0];
-    e.radius = 50;
+    initCoords();
+    initEntities();
 }
 
 function draw() {
@@ -24,5 +54,23 @@ function draw() {
     ambientLight(60);
     directionalLight(255, -PI/4, -PI/4, 0);
 
-    e.draw();
+    for (var i = 0; i < entities.length; i++) {
+        entities[i].draw();
+    }
+}
+
+
+// User input
+
+function keyPressed() {
+    switch (keyCode) {
+        case 13:
+            // Enter
+            initEntities();
+            break;
+        case 78:
+            // N
+            showNutrition = !showNutrition;
+            break;
+    }
 }
