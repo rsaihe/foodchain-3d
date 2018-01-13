@@ -23,6 +23,8 @@ class Entity {
         this.pos = createVector(x, y, z);
         this.vel = createVector();
         this.acc = createVector();
+        this.accAmt = 0.1;
+        this.topSpeed = 0;
     }
 
     applyForce(f) {
@@ -56,9 +58,29 @@ class Entity {
         pop();
     }
 
+    // Reduces nutrition level, kills if nutrition is 0
+    hunger() {
+        this.nutrition > 0 ? this.nutrition-- : this.kill();
+    }
+
     kill() {
         this.alive = false;
     }
+
+    update() {
+        this.vel.add(this.acc);
+        this.vel.limit(this.topSpeed);
+        this.pos.add(this.vel);
+        this.acc.mult(0);
+    }
+
+    // Accelerate in random direction
+    wander() {
+        this.applyForce(p5.Vector.random3D().mult(this.accAmt));
+    }
+
+
+    // Events
 
     onCreate() {
         if (typeof this.maxNutrition === 'undefined') {

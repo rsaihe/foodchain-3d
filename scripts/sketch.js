@@ -29,6 +29,8 @@ function initEntities() {
         var e = new Entity(x, y, random(mapZ));
         e.color = [255, 0, 0];
         e.radius = random(10, 50);
+        e.accAmt = random(0.4);
+        e.topSpeed = random(10);
         entities.push(e);
     }
 }
@@ -55,7 +57,10 @@ function draw() {
     directionalLight(255, -PI/4, -PI/4, 0);
 
     for (var i = 0; i < entities.length; i++) {
-        entities[i].draw();
+        var e = entities[i];
+        e.wander();
+        e.update();
+        e.draw();
     }
 }
 
