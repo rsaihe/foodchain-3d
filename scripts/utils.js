@@ -14,6 +14,6 @@ function getByName(entities, names) {
 }
 
 // Check if point is inside sphere
-function insideSphere(x, y, z, cx, cy, cz, r) {
-    return sq(x - cx) + sq(y - cy) + sq(z - cz) < sq(r);
+function insideSphere(v, c, r) {
+    return v.dist(c) < r;
 }

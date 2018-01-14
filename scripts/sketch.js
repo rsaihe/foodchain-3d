@@ -57,10 +57,7 @@ function draw() {
     directionalLight(255, -PI/4, -PI/4, 0);
 
     for (var i = 0; i < entities.length; i++) {
-        var e = entities[i];
-        e.wander();
-        e.update();
-        e.draw();
+        entities[i].act();
     }
 }
 
