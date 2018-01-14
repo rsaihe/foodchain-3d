@@ -31,6 +31,7 @@ function initEntities() {
         e.radius = random(10, 50);
         e.accAmt = random(0.4);
         e.topSpeed = random(4);
+        e.onCreate();
         entities.push(e);
     }
 }

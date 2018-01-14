@@ -99,7 +99,7 @@ class Entity {
         } else {
             alpha = 255;
         }
-        ambientMaterial(this.color, alpha);
+        ambientMaterial(this.color[0], this.color[1], this.color[2], alpha);
 
         translate(this.pos.x, this.pos.y, this.pos.z);
         sphere(this.radius);
