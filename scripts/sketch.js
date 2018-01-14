@@ -86,7 +86,7 @@ function draw() {
         var x = random(-mapX, mapX);
         var y = random(-mapY, mapY);
         var z = random(mapZ);
-        entities.push(createEntity(x, y, z, entity.food));
+        newEntities.push(createEntity(x, y, z, entity.food));
     }
 
     // Lighting
