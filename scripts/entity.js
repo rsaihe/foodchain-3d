@@ -46,7 +46,7 @@ class Entity {
         var toEat = getByName(visible, this.canEat);
         for (var i = 0; i < toEat.length; i++) {
             var e = toEat[i];
-            if (this.contains(e.pos.x, e.pos.y, e.pos.z)) this.onEat(e);
+            if (this.contains(e.pos.x, e.pos.y, e.pos.z)) this.onEatAttempt(e);
         }
     }
 
@@ -206,6 +206,10 @@ class Entity {
 
     onEat(e) {
         return this.eat(e);
+    }
+
+    onEatAttempt(e) {
+        this.onEat(e);
     }
 
     onEaten(e) {}

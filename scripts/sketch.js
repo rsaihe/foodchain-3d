@@ -8,12 +8,14 @@ var mapZ;
 var presets = [
     {
         food: 30,
-        //pred: 10,
+        pred: 10,
         prey: 20
     }
 ];
 var currentPreset = 0;
 
+var avoidLines = false;
+var chaseLines = false;
 var showNutrition = true;
 var showPerception = false;
 
@@ -71,7 +73,9 @@ function draw() {
 
     // Restart if there are too many or too few entities
     var total = entities.length;
-    if (total <= 0 || total > 1200) initEntities();
+    var static = getByName(entities, ['food', 'fungus', 'hive']).length;
+    var dynamic = total - static;
+    if (total <= 0 || total > 1200 || dynamic === 0) initEntities();
 
     // Randomly spawn food on the map
     if (random(20) < 1) {
@@ -111,6 +115,14 @@ function keyPressed() {
         case 17:
             // Ctrl
             showPerception = !showPerception;
+            break;
+        case 18:
+            // Alt
+            avoidLines = !avoidLines;
+            break;
+        case 32:
+            // Spacebar
+            chaseLines = !chaseLines;
             break;
         case 78:
             // N

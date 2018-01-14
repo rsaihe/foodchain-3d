@@ -78,6 +78,44 @@ entity.food = {
     hunger: function() {}
 };
 
+entity.pred = {
+    // AI
+    avoid: ['pred', 'swarm'],
+    canEat: ['prey'],
+    chase: ['prey'],
+    avoidPriority: 0.5,
+    chasePriority: 4,
+    perception: 200,
+    steer: multiTarget,
+    // Display
+    color: [207, 0, 15],
+    radius: 30,
+    // Misc
+    name: 'pred',
+    // Nutrition
+    nutrition: 250,
+    // Physics
+    accAmt: 0.6,
+    topSpeed: 6,
+    // Methods
+    onDeath: function() {
+        if (random(3) >= 2) return;
+        var p = this.pos;
+        newEntities.push(createEntity(p.x, p.y, p.x, entity.food));
+    },
+    onEatAttempt: function(e) {
+        this.vel.mult(0);
+        if (random(4) < 1) this.onEat(e);
+    },
+    onEat: function(e) {
+        if (!this.eat(e)) return;
+        if (random(2) >= 1) return;
+
+        var p = p5.Vector.random3D().mult(20).add(this.pos);
+        newEntities.push(createEntity(p.x, p.y, p.z, entity.pred));
+    }
+};
+
 entity.prey = {
     // AI
     canEat: ['food'],
@@ -87,11 +125,13 @@ entity.prey = {
     // Display
     color: [82, 179, 217],
     radius: 15,
+    // Misc
+    name: 'prey',
     // Nutrition
     nutrition: 400,
     // Physics
-    accAmt: 0.5,
-    topSpeed: 3,
+    accAmt: 1,
+    topSpeed: 5,
     // Methods
     onEat: function(e) {
         if (!this.eat(e)) return;
