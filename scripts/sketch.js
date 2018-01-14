@@ -77,9 +77,8 @@ function draw() {
     background(0);
 
     // Restart if there are too many or too few entities
-    var total = entities.length;
-    var static = getByName(entities, ['food', 'fungus', 'hive']).length;
-    var dynamic = total - static;
+    var total = entities.length + newEntities.length;
+    var dynamic = getByName(entities, ['pred', 'prey']).length;
     if (total <= 0 || total > 600 || dynamic === 0) initEntities();
 
     // Randomly spawn food on the map

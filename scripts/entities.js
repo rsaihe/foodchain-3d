@@ -105,7 +105,6 @@ entity.fungus = {
 
         if (random(3) < 1) {
             this.radius += 5;
-            this.mass *= 2;
         } else {
             var p = p5.Vector.random3D().mult(200).add(this.pos);
             p = this.pos;
@@ -113,9 +112,9 @@ entity.fungus = {
             e.vel = p5.Vector.random3D().mult(this.topSpeed);
             newEntities.push(e);
         }
-
+        
         while (true) {
-            if (random(3) < 2) {
+            if (random(9) < 5) {
                 var r = this.radius + 10;
                 var p = p5.Vector.random3D().mult(r).add(this.pos);
                 newEntities.push(createEntity(p.x, p.y, p.z, entity.food));
