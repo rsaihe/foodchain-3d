@@ -84,7 +84,7 @@ entity.fungus = {
     perception: 20,
     // Display
     color: [102, 51, 153],
-    radius: 50,
+    radius: 35,
     // Misc
     name: 'fungus',
     // Nutrition
@@ -122,7 +122,7 @@ entity.pred = {
     steer: multiTarget,
     // Display
     color: [207, 0, 15],
-    radius: 30,
+    radius: 25,
     // Misc
     name: 'pred',
     // Nutrition
@@ -142,7 +142,7 @@ entity.pred = {
     },
     onEat: function(e) {
         if (!this.eat(e)) return;
-        if (random(2) >= 1) return;
+        if (random(3) >= 1) return;
 
         var p = p5.Vector.random3D().mult(20).add(this.pos);
         newEntities.push(createEntity(p.x, p.y, p.z, entity.pred));
