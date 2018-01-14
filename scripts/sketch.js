@@ -5,6 +5,15 @@ var mapX;
 var mapY;
 var mapZ;
 
+var presets = [
+    {
+        food: 30,
+        //pred: 10,
+        prey: 20
+    }
+];
+var currentPreset = 0;
+
 var showNutrition = true;
 var showPerception = false;
 
@@ -15,7 +24,7 @@ var showPerception = false;
 function initCoords() {
     mapX = width / 2;
     mapY = height / 2;
-    mapZ = -500;
+    mapZ = -1000;
 }
 
 // Initialize entity arrays
@@ -23,19 +32,28 @@ function initEntities() {
     entities = [];
     newEntities = [];
 
-    // Spawn example entities
-    for (var i = 0; i < 10; i++) {
-        var x = random(-mapX, mapX);
-        var y = random(-mapY, mapY);
-        var e = new Entity(x, y, random(mapZ));
-        e.color = [255, 0, 0];
-        e.radius = random(10, 50);
-        e.accAmt = random(0.4);
-        e.topSpeed = random(4);
-        e.perception = e.radius + random(40, 200);
-        e.hunger = function() {};
-        e.onCreate();
-        entities.push(e);
+    // Setup initial entities from preset
+    var preset = presets[currentPreset];
+    var keys = Object.keys(preset);
+    for (var i = 0; i < keys.length; i++) {
+        var template = keys[i];
+        var count = preset[template];
+        for (var j = 0; j < count; j++) {
+            var x = random(-mapX, mapX);
+            var y = random(-mapY, mapY);
+            var z = random(mapZ);
+            entities.push(createEntity(x, y, z, entity[template]));
+        }
+    }
+}
+
+// Remove dead entities from entities array
+function removeDead(entities) {
+    for (var i = entities.length - 1; i >= 0; i--) {
+        var e = entities[i];
+        if (e.alive) continue;
+        entities.splice(i, 1);
+        e.onDeath();
     }
 }
 
@@ -75,6 +93,10 @@ function draw() {
     for (var i = 0; i < entities.length; i++) {
         entities[i].act();
     }
+
+    removeDead(entities);
+    entities = entities.concat(newEntities);
+    newEntities = [];
 }
 
 

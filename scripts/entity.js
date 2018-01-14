@@ -2,8 +2,8 @@ class Entity {
     constructor(x, y, z) {
         // AI
         this.avoid = [];
+        this.canEat = [];
         this.chase = [];
-        this.eat = [];
         this.avoidPriority = 1;
         this.chasePriority = 1;
         this.perception = 0;
@@ -41,6 +41,13 @@ class Entity {
 
         // Draw
         this.draw();
+
+        // Eating
+        var toEat = getByName(visible, this.canEat);
+        for (var i = 0; i < toEat.length; i++) {
+            var e = toEat[i];
+            if (this.contains(e.pos.x, e.pos.y, e.pos.z)) this.onEat(e);
+        }
     }
 
     applyForce(f) {
@@ -93,7 +100,7 @@ class Entity {
         // Draw transparent sphere of perception radius around entity
         noStroke();
         translate(this.pos.x, this.pos.y, this.pos.z);
-        if (showPerception) {
+        if (showPerception && this.perception > this.radius) {
             ambientMaterial(this.color[0], this.color[1], this.color[2], 31);
             sphere(this.perception);
         }
@@ -109,6 +116,21 @@ class Entity {
         sphere(this.radius);
 
         pop();
+    }
+
+    // Returns true if entity eaten successfully
+    eat(e) {
+        // Do not eat already dead entities
+        if (!e.alive) return false;
+        e.kill();
+
+        // Add nutrition and ensure it does not go over max
+        this.nutrition += e.nutrition;
+        if (this.nutrition > this.maxNutrition) {
+            this.nutrition = this.maxNutrition;
+        }
+
+        return true;
     }
 
     // Reduces nutrition level, kills if nutrition is 0
@@ -172,9 +194,19 @@ class Entity {
 
     // Events
 
+    onChase(e) {}
+
     onCreate() {
         if (typeof this.maxNutrition === 'undefined') {
             this.maxNutrition = this.nutrition;
         }
     }
+
+    onDeath() {}
+
+    onEat(e) {
+        return this.eat(e);
+    }
+
+    onEaten(e) {}
 }
