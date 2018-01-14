@@ -20,7 +20,7 @@ var presets = [
 ];
 var currentPreset = 0;
 
-var camMode = true;
+var camPos = 0;
 var showNutrition = true;
 var showPerception = false;
 
@@ -89,15 +89,54 @@ function draw() {
         entities.push(createEntity(x, y, z, entity.food));
     }
 
-    // Camera
-    var camX = map(mouseX, 0, width, -200, 200);
-    var camY = map(mouseY, 0, height, -200, 200);
-    camera(camX, camY, (height/2) / tan(PI/6), camX, camY, 0, 0, 1, 0);
-    //ortho(-mapX, mapX, -mapY, mapY, mapZ, 0);
-
     // Lighting
     ambientLight(60);
-    directionalLight(255, 255, 255, -1, -1, 0);
+
+    // Camera
+    if (camPos === 0) {
+        // front
+        var camX = map(mouseX, 0, width, -200, 200);
+        var camY = map(mouseY, 0, height, -200, 200);
+        var camZ = (height/2) / tan(PI/6);
+        camera(camX, camY, camZ, camX, camY, 0, 0, 1, 0);
+        directionalLight(255, 255, 255, -1, -1, 0);
+    } else if (camPos === 1) {
+        // right
+        var camX = mapX + (height/2) / tan(PI/6);
+        var camY = map(mouseY, 0, height, -200, 200);
+        var camZ = mapZ / 2 + map(mouseX, 0, width, 200, -200);
+        camera(camX, camY, camZ, 0, camY, camZ, 0, 1, 0);
+        directionalLight(255, 255, 255, 0, -1, -1);
+    } else if (camPos === 2) {
+        // back
+        var camX = map(mouseX, 0, width, 200, -200);
+        var camY = map(mouseY, 0, height, -200, 200);
+        var camZ = mapZ - (height/2) / tan(PI/6);
+        camera(camX, camY, camZ, camX, camY, 0, 0, 1, 0);
+        directionalLight(255, 255, 255, 1, -1, 0);
+    } else if (camPos === 3) {
+        // left
+        var camX = -mapX - (height/2) / tan(PI/6);
+        var camY = map(mouseY, 0, height, -200, 200);
+        var camZ = mapZ / 2 + map(mouseX, 0, width, -200, 200);
+        camera(camX, camY, camZ, 0, camY, camZ, 0, 1, 0);
+        directionalLight(255, 255, 255, 0, -1, 1);
+    } else if (camPos === 4) {
+        // top
+        var camX = map(mouseY, 0, height, -200, 200);
+        var camY = -mapY - (height/2) / tan(PI/6);
+        var camZ = mapZ/2 + map(mouseX, 0, width, 200, -200);
+        camera(camX, camY, camZ, camX, 0, camZ, 1, 0, 0);
+        directionalLight(255, 255, 255, 0, -1, 1);
+    } else if (camPos === 5) {
+        // bottom
+        var camX = map(mouseY, 0, height, -200, 200);
+        var camY = mapY + (height/2) / tan(PI/6);
+        var camZ = mapZ/2 + map(mouseX, 0, width, -200, 200);
+        camera(camX, camY, camZ, camX, 0, camZ, 1, 0, 0);
+        directionalLight(255, 255, 255, 0, -1, -1);
+    }
+    //ortho(-mapX, mapX, -mapY, mapY, mapZ, 0);
 
     for (var i = 0; i < entities.length; i++) {
         entities[i].act();
@@ -116,6 +155,7 @@ function keyPressed() {
         case 13:
             // Enter
             initEntities();
+            camPos = 0;
             break;
         case 17:
             // Ctrl
@@ -136,7 +176,14 @@ function keyPressed() {
             if (currentPreset !== n && presets.length > n) {
                 currentPreset = n;
                 initEntities();
+                camPos = 0;
             }
+            break;
+        case 67:
+            // C
+            keyIsDown(SHIFT) ? camPos-- : camPos++;
+            if (camPos < 0) camPos = 5;
+            if (camPos > 5) camPos = 0;
             break;
         case 78:
             // N
