@@ -131,7 +131,7 @@ function keyPressed() {
         case 56:
         case 57:
             // 0-9
-            var n = keyCode - 48;
+            var n = keyCode - 49;
             if (currentPreset !== n && presets.length > n) {
                 currentPreset = n;
                 initEntities();

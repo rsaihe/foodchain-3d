@@ -24,6 +24,8 @@ class Entity {
         this.vel = createVector();
         this.acc = createVector();
         this.accAmt = 0.1;
+        this.fricAmt = 0;
+        this.mass = 1;
         this.topSpeed = 0;
     }
 
@@ -51,7 +53,7 @@ class Entity {
     }
 
     applyForce(f) {
-        this.acc.add(f);
+        this.acc.add(f.div(this.mass));
     }
 
     // Update position and velocity if outside map
@@ -168,7 +170,13 @@ class Entity {
     update() {
         this.vel.add(this.acc);
         this.vel.limit(this.topSpeed);
-        this.pos.add(this.vel);
+        if (this.vel.mag() < this.fricAmt) {
+            this.vel.mult(0);
+        } else {
+            var fric = this.vel.copy().setMag(this.fricAmt);
+            this.vel.sub(fric);
+            this.pos.add(this.vel);
+        }
         this.acc.mult(0);
     }
     

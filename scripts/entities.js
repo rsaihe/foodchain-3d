@@ -84,14 +84,15 @@ entity.fungus = {
     perception: 20,
     // Display
     color: [102, 51, 153],
-    radius: 35,
+    radius: 40,
     // Misc
     name: 'fungus',
     // Nutrition
     nutrition: 500,
     // Physics
     accAmt: 0,
-    topSpeed: 0,
+    fricAmt: 0.4,
+    topSpeed: 10,
     // Methods
     onCreate() {
         if (typeof this.maxNutrition === 'undefined') {
@@ -102,12 +103,26 @@ entity.fungus = {
     onEat: function(e) {
         if (!this.eat(e)) return;
 
-        if (random(2) < 1) {
-            var p = p5.Vector.random3D().mult(20).add(this.pos);
-            newEntities.push(createEntity(p.x, p.y, p.z, entity.food));
+        if (random(3) < 1) {
+            this.radius += 5;
+            this.mass *= 2;
+        } else {
+            var p = p5.Vector.random3D().mult(200).add(this.pos);
+            p = this.pos;
+            var e = createEntity(p.x, p.y, p.z, entity.fungus);
+            e.vel = p5.Vector.random3D().mult(this.topSpeed);
+            newEntities.push(e);
         }
-        var p = p5.Vector.random3D().mult(200).add(this.pos);
-        newEntities.push(createEntity(p.x, p.y, p.z, entity.fungus));
+
+        while (true) {
+            if (random(3) < 2) {
+                var r = this.radius + 10;
+                var p = p5.Vector.random3D().mult(r).add(this.pos);
+                newEntities.push(createEntity(p.x, p.y, p.z, entity.food));
+            } else {
+                break;
+            }
+        }
     }
 };
 
