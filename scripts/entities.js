@@ -78,6 +78,39 @@ entity.food = {
     hunger: function() {}
 };
 
+entity.fungus = {
+    // AI
+    canEat: ['prey'],
+    perception: 20,
+    // Display
+    color: [102, 51, 153],
+    radius: 50,
+    // Misc
+    name: 'fungus',
+    // Nutrition
+    nutrition: 500,
+    // Physics
+    accAmt: 0,
+    topSpeed: 0,
+    // Methods
+    onCreate() {
+        if (typeof this.maxNutrition === 'undefined') {
+            this.maxNutrition = this.nutrition;
+        }
+        this.perception = this.radius;
+    },
+    onEat: function(e) {
+        if (!this.eat(e)) return;
+
+        if (random(2) < 1) {
+            var p = p5.Vector.random3D().mult(20).add(this.pos);
+            newEntities.push(createEntity(p.x, p.y, p.z, entity.food));
+        }
+        var p = p5.Vector.random3D().mult(200).add(this.pos);
+        newEntities.push(createEntity(p.x, p.y, p.z, entity.fungus));
+    }
+};
+
 entity.pred = {
     // AI
     avoid: ['pred', 'swarm'],

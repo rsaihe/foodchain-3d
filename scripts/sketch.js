@@ -10,6 +10,12 @@ var presets = [
         food: 30,
         pred: 10,
         prey: 20
+    },
+    {
+        food: 30,
+        fungus: 8,
+        pred: 10,
+        prey: 20
     }
 ];
 var currentPreset = 0;
@@ -73,7 +79,7 @@ function draw() {
     var total = entities.length;
     var static = getByName(entities, ['food', 'fungus', 'hive']).length;
     var dynamic = total - static;
-    if (total <= 0 || total > 1200 || dynamic === 0) initEntities();
+    if (total <= 0 || total > 600 || dynamic === 0) initEntities();
 
     // Randomly spawn food on the map
     if (random(20) < 1) {
@@ -113,6 +119,23 @@ function keyPressed() {
         case 17:
             // Ctrl
             showPerception = !showPerception;
+            break;
+        case 48:
+        case 49:
+        case 50:
+        case 51:
+        case 52:
+        case 53:
+        case 54:
+        case 55:
+        case 56:
+        case 57:
+            // 0-9
+            var n = keyCode - 48;
+            if (currentPreset !== n && presets.length > n) {
+                currentPreset = n;
+                initEntities();
+            }
             break;
         case 78:
             // N
