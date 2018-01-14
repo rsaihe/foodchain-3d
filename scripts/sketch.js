@@ -33,6 +33,7 @@ function initEntities() {
         e.accAmt = random(0.4);
         e.topSpeed = random(4);
         e.perception = e.radius + random(40, 200);
+        e.hunger = function() {};
         e.onCreate();
         entities.push(e);
     }
