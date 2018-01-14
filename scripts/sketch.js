@@ -189,5 +189,9 @@ function keyPressed() {
             // N
             showNutrition = !showNutrition;
             break;
+        case 82:
+            // R
+            camPos = 0;
+            break;
     }
 }

@@ -8,3 +8,4 @@ A 3d version of my predator-prey simulation in p5.js that can be played [here](h
 * C to cycle camera location forwards
 * C + shift to cycle camera location backwards
 * N to toggle fading based on nutrition level
+* R to reset camera location to default
