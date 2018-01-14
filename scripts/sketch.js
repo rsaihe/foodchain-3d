@@ -20,6 +20,7 @@ var presets = [
 ];
 var currentPreset = 0;
 
+var camMode = true;
 var showNutrition = true;
 var showPerception = false;
 
@@ -82,7 +83,7 @@ function draw() {
     if (total <= 0 || total > 600 || dynamic === 0) initEntities();
 
     // Randomly spawn food on the map
-    if (random(20) < 1) {
+    if (random(10) < 1) {
         var x = random(-mapX, mapX);
         var y = random(-mapY, mapY);
         var z = random(mapZ);
@@ -90,13 +91,17 @@ function draw() {
     }
 
     // Camera
-    var camX = map(mouseX, 0, width, -200, 200);
-    var camY = map(mouseY, 0, height, -200, 200);
-    camera(camX, camY, (height/2) / tan(PI/6), camX, camY, 0, 0, 1, 0);
+    if (camMode) {
+        var camX = map(mouseX, 0, width, -200, 200);
+        var camY = map(mouseY, 0, height, -200, 200);
+        camera(camX, camY, (height/2) / tan(PI/6), camX, camY, 0, 0, 1, 0);
+    } else {
+        ortho(-mapX, mapX, -mapY, mapY, mapZ, 0);
+    }
 
     // Lighting
     ambientLight(60);
-    directionalLight(255, 255, 255, -PI/4, -PI/4, 0);
+    directionalLight(255, 255, 255, -1, -1, 0);
 
     for (var i = 0; i < entities.length; i++) {
         entities[i].act();
@@ -136,6 +141,10 @@ function keyPressed() {
                 currentPreset = n;
                 initEntities();
             }
+            break;
+        case 67:
+            // C
+            camMode = !camMode;
             break;
         case 78:
             // N
