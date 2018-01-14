@@ -36,6 +36,8 @@ class Entity {
 
         // Update
         this.update();
+        this.bounceOffEdges();
+        this.hunger();
 
         // Draw
         this.draw();
@@ -43,6 +45,41 @@ class Entity {
 
     applyForce(f) {
         this.acc.add(f);
+    }
+
+    // Update position and velocity if outside map
+    bounceOffEdges() {
+        var mult = -4;
+
+        if (this.pos.x - this.radius < -mapX) {
+            this.pos.x = -mapX + this.radius;
+            this.vel.x *= mult;
+        }
+
+        if (this.pos.x + this.radius > mapX) {
+            this.pos.x = mapX - this.radius;
+            this.vel.x *= mult;
+        }
+
+        if (this.pos.y - this.radius < -mapY) {
+            this.pos.y = -mapY + this.radius;
+            this.vel.y *= mult;
+        }
+
+        if (this.pos.y + this.radius > mapY) {
+            this.pos.y = mapY - this.radius;
+            this.vel.y *= mult;
+        }
+
+        if (this.pos.z + this.radius < mapZ) {
+            this.pos.z = mapZ + this.radius;
+            this.vel.z *= mult;
+        }
+
+        if (this.pos.z - this.radius > 0) {
+            this.pos.z = -this.radius;
+            this.vel.z *= mult;
+        }
     }
 
     // Check if point is inside entity

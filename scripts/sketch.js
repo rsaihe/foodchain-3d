@@ -30,7 +30,7 @@ function initEntities() {
         e.color = [255, 0, 0];
         e.radius = random(10, 50);
         e.accAmt = random(0.4);
-        e.topSpeed = random(10);
+        e.topSpeed = random(4);
         entities.push(e);
     }
 }
