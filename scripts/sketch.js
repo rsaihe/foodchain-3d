@@ -14,8 +14,6 @@ var presets = [
 ];
 var currentPreset = 0;
 
-var avoidLines = false;
-var chaseLines = false;
 var showNutrition = true;
 var showPerception = false;
 
@@ -115,14 +113,6 @@ function keyPressed() {
         case 17:
             // Ctrl
             showPerception = !showPerception;
-            break;
-        case 18:
-            // Alt
-            avoidLines = !avoidLines;
-            break;
-        case 32:
-            // Spacebar
-            chaseLines = !chaseLines;
             break;
         case 78:
             // N
