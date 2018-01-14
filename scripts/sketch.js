@@ -91,13 +91,10 @@ function draw() {
     }
 
     // Camera
-    if (camMode) {
-        var camX = map(mouseX, 0, width, -200, 200);
-        var camY = map(mouseY, 0, height, -200, 200);
-        camera(camX, camY, (height/2) / tan(PI/6), camX, camY, 0, 0, 1, 0);
-    } else {
-        ortho(-mapX, mapX, -mapY, mapY, mapZ, 0);
-    }
+    var camX = map(mouseX, 0, width, -200, 200);
+    var camY = map(mouseY, 0, height, -200, 200);
+    camera(camX, camY, (height/2) / tan(PI/6), camX, camY, 0, 0, 1, 0);
+    //ortho(-mapX, mapX, -mapY, mapY, mapZ, 0);
 
     // Lighting
     ambientLight(60);
@@ -141,10 +138,6 @@ function keyPressed() {
                 currentPreset = n;
                 initEntities();
             }
-            break;
-        case 67:
-            // C
-            camMode = !camMode;
             break;
         case 78:
             // N
