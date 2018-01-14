@@ -51,6 +51,18 @@ function setup() {
 function draw() {
     background(0);
 
+    // Restart if there are too many or too few entities
+    var total = entities.length;
+    if (total <= 0 || total > 1200) initEntities();
+
+    // Randomly spawn food on the map
+    if (random(20) < 1) {
+        var x = random(-mapX, mapX);
+        var y = random(-mapY, mapY);
+        var z = random(mapZ);
+        entities.push(createEntity(x, y, z, entity.food));
+    }
+
     // Camera
     var camX = map(mouseX, 0, width, -200, 200);
     var camY = map(mouseY, 0, height, -200, 200);
@@ -58,7 +70,7 @@ function draw() {
 
     // Lighting
     ambientLight(60);
-    directionalLight(255, -PI/4, -PI/4, 0);
+    directionalLight(255, 255, 255, -PI/4, -PI/4, 0);
 
     for (var i = 0; i < entities.length; i++) {
         entities[i].act();

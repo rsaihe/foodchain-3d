@@ -120,6 +120,21 @@ class Entity {
         this.alive = false;
     }
 
+    // Return nearest entity
+    nearest(entities) {
+        var lowestDist = 1000000;
+        var e = entities[0];
+        for (var i = 0; i < entities.length; i++) {
+            var dist = entities[i].pos.dist(this.pos);
+            if (dist < lowestDist) {
+                lowestDist = dist;
+                e = entities[i];
+            }
+        }
+        
+        return e;
+    }
+
     // Applies steering vector
     steer(entities) {}
 
