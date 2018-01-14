@@ -6,6 +6,7 @@ var mapY;
 var mapZ;
 
 var showNutrition = true;
+var showPerception = false;
 
 
 // Misc functions
@@ -31,6 +32,7 @@ function initEntities() {
         e.radius = random(10, 50);
         e.accAmt = random(0.4);
         e.topSpeed = random(4);
+        e.perception = e.radius + random(40, 200);
         e.onCreate();
         entities.push(e);
     }
@@ -70,6 +72,10 @@ function keyPressed() {
         case 13:
             // Enter
             initEntities();
+            break;
+        case 17:
+            // Ctrl
+            showPerception = !showPerception;
             break;
         case 78:
             // N

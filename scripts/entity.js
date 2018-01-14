@@ -90,7 +90,13 @@ class Entity {
     draw() {
         push();
 
+        // Draw transparent sphere of perception radius around entity
         noStroke();
+        translate(this.pos.x, this.pos.y, this.pos.z);
+        if (showPerception) {
+            ambientMaterial(this.color[0], this.color[1], this.color[2], 31);
+            sphere(this.perception);
+        }
 
         // Decrease opacity as nutrition level goes down
         var alpha;
@@ -100,8 +106,6 @@ class Entity {
             alpha = 255;
         }
         ambientMaterial(this.color[0], this.color[1], this.color[2], alpha);
-
-        translate(this.pos.x, this.pos.y, this.pos.z);
         sphere(this.radius);
 
         pop();
